@@ -1,0 +1,421 @@
+{
+  "version": "0.1.0",
+  "name": "bet_game",
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createRound",
+      "docs": [
+        "Create a new round"
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "globalState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "roundState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "roundIndex",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "creatorUpdateScore",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "roundState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "roundIndex",
+          "type": "u32"
+        },
+        {
+          "name": "score",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "joinRound",
+      "docs": [
+        "Join the round with a number"
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "roundState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "roundIndex",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "joinerUpdateScore",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "roundState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "roundIndex",
+          "type": "u32"
+        },
+        {
+          "name": "score",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "roundState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "joiner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "roundIndex",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "claimDeposit",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "roundState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "roundIndex",
+          "type": "u32"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GlobalState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "totalRound",
+            "type": "u32"
+          },
+          {
+            "name": "roundIndex",
+            "type": {
+              "vec": "u32"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserRoundList",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "roundIndexs",
+            "type": {
+              "vec": "u32"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoundState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "roundIndex",
+            "type": "u32"
+          },
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "joiner",
+            "type": "publicKey"
+          },
+          {
+            "name": "isCreatorUpdated",
+            "type": "bool"
+          },
+          {
+            "name": "isJoinerUpdated",
+            "type": "bool"
+          },
+          {
+            "name": "creatorScore",
+            "type": "u32"
+          },
+          {
+            "name": "joinerScore",
+            "type": "u32"
+          },
+          {
+            "name": "startTime",
+            "type": "i64"
+          },
+          {
+            "name": "joinTime",
+            "type": "i64"
+          },
+          {
+            "name": "winner",
+            "type": "publicKey"
+          },
+          {
+            "name": "timeout",
+            "type": "i64"
+          },
+          {
+            "name": "isFinished",
+            "type": "bool"
+          },
+          {
+            "name": "isClaimed",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "HashNotMatch",
+      "msg": "Hash not match"
+    },
+    {
+      "code": 6001,
+      "name": "AlreadyRevealed",
+      "msg": "Already revealed"
+    },
+    {
+      "code": 6002,
+      "name": "OutOfTime",
+      "msg": "Out of time"
+    },
+    {
+      "code": 6003,
+      "name": "NoJoiner",
+      "msg": "No joiner"
+    },
+    {
+      "code": 6004,
+      "name": "NotCreator",
+      "msg": "Not creator"
+    },
+    {
+      "code": 6005,
+      "name": "NotEndRevealTime",
+      "msg": "Not end reveal time yet"
+    },
+    {
+      "code": 6006,
+      "name": "AlreadyJoined",
+      "msg": "Already joined"
+    },
+    {
+      "code": 6007,
+      "name": "NotJoiner",
+      "msg": "Not joiner"
+    },
+    {
+      "code": 6008,
+      "name": "NotEndYet",
+      "msg": "Not end yet"
+    },
+    {
+      "code": 6009,
+      "name": "AlreadyFinished",
+      "msg": "Already finished"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidRoundIndex",
+      "msg": "Invalid round index"
+    },
+    {
+      "code": 6011,
+      "name": "NotOutOfTime",
+      "msg": "Not out of time"
+    },
+    {
+      "code": 6012,
+      "name": "CreatorNotUpdated",
+      "msg": "Creator not updated"
+    },
+    {
+      "code": 6013,
+      "name": "WrongJoiner",
+      "msg": "Wrong joiner"
+    },
+    {
+      "code": 6014,
+      "name": "WrongCreator",
+      "msg": "Wrong creator"
+    }
+  ],
+  "metadata": {
+    "address": "Ed477P75RHCSFhnWkY2TWGTXuwXpUfnG5BjQ3QzLnntH"
+  }
+}
